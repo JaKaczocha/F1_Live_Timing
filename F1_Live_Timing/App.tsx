@@ -14,6 +14,9 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import ActivityMain from './activityMain';
 import ActivityLiveResults from './activityLiveResults';
 import ActivityArchivalRaces from './activityArchivalRaces';
+import ActivitySelectedRace from './activitySelectedRace';
+import ActivityArchivalRaceResults from './activityArchivalRaceResults';
+
 
 function App(): React.JSX.Element {
  
@@ -32,6 +35,9 @@ function App(): React.JSX.Element {
         <Stack.Screen name="LIVE TIMING" component={ActivityMain} />
         <Stack.Screen name="LIVE RESULTS" component={ActivityLiveResults}/>
         <Stack.Screen name="ARCHIVAL RACES" component={ActivityArchivalRaces}/>
+        <Stack.Screen name="SELECTED RACE" component={ActivitySelectedRace}/>
+        <Stack.Screen name="SELECTED RACE RESULTS" component={ActivityArchivalRaceResults}/>
+
       </Stack.Navigator>
     </NavigationContainer>
   );

@@ -73,30 +73,38 @@ const ActivitySelectedRace = ({ navigation, route }) => {
 
   return (
     <View style={styles.container}>
-        <View style={styles.infoBar} >
-            <Text style={{color:'white', textAlign:'center'}}>Select session</Text>
-              
-        </View>
+      <View style={styles.infoBar}>
+        <Text style={{ color: 'white', textAlign: 'center' }}>Select session</Text>
+      </View>
 
       <FlatList
         style={styles.list}
         data={sessions}
         renderItem={({ item, index }) => (
-          <TouchableOpacity onPress={() => {/* Obsługa naciśnięcia */}} style={styles.sessionTouch}>
+          <TouchableOpacity
+            onPress={() => {
+              if (item.session_name === 'Race') {
+                navigation.navigate('SELECTED RACE RESULTS', {
+                  locationName: locationName,
+                  seasonName: seasonName,   
+                });
+              }
+            }}
+            style={styles.sessionTouch}
+          >
             <View style={[styles.sessionBar, index % 2 === 1 ? styles.sessionBarEven : null]}>
               <Text style={styles.sessionName}>{item.session_name}</Text>
-              {/* Tutaj możesz dodać inne dane z sesji */}
             </View>
           </TouchableOpacity>
         )}
         keyExtractor={(item) => item.session_key.toString()}
       />
 
-      <Text style={{color:'white', fontSize: 24}}> {locationName} circuit</Text>
+      <Text style={{ color: 'white', fontSize: 24 }}> {locationName} circuit</Text>
       <Image
-  style={styles.image}
-  source={getImagePath(locationName)}
-/>
+        style={styles.image}
+        source={getImagePath(locationName)}
+      />
     </View>
   );
 };
