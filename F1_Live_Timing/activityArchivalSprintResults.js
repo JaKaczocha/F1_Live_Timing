@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, ScrollView, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
 
-const ActivityArchivalRaceResults = ({ route }) => {
+const ActivityArchivalSprintResults = ({ route }) => {
   const { locationName, seasonName } = route.params;
   const [meetingInfo, setMeetingInfo] = useState(null);
   const [rounds, setRounds] = useState([]);
-  const [raceResults, setRaceResults] = useState([]);
+  const [sprintResults, setSprintResults] = useState([]);
 
   useEffect(() => {
     fetchMeetingInfo();
@@ -17,7 +17,7 @@ const ActivityArchivalRaceResults = ({ route }) => {
       const apiUrl = `https://api.openf1.org/v1/meetings?year=${seasonName}&location=${locationName}`;
       const response = await fetch(apiUrl);
       const data = await response.json();
-      setMeetingInfo(data[0] || {});  // Assuming the first item in the list
+      setMeetingInfo(data[0] || {});
     } catch (error) {
       console.error('Error fetching meeting info:', error);
     }
@@ -38,22 +38,22 @@ const ActivityArchivalRaceResults = ({ route }) => {
     }
   };
 
-  const fetchRaceResults = async (round) => {
+  const fetchSprintResults = async (round) => {
     try {
-      const apiUrlResults = `https://ergast.com/api/f1/${seasonName}/${round}/results.json`;
+      const apiUrlResults = `https://ergast.com/api/f1/${seasonName}/${round}/sprint.json`;
       const responseResults = await fetch(apiUrlResults);
       const dataResults = await responseResults.json();
       if (dataResults.MRData.RaceTable.Races.length > 0) {
-        const results = dataResults.MRData.RaceTable.Races[0].Results;
-        setRaceResults(prevResults => [...prevResults, { round, results }]);
+        const sprintResultsData = dataResults.MRData.RaceTable.Races[0].SprintResults;
+        setSprintResults(prevResults => [...prevResults, { round, sprintResultsData }]);
       }
     } catch (error) {
-      console.error('Error fetching race results:', error);
+      console.error('Error fetching sprint results:', error);
     }
   };
 
   useEffect(() => {
-    rounds.forEach(round => fetchRaceResults(round));
+    rounds.forEach(round => fetchSprintResults(round));
   }, [rounds]);
 
   const renderResultItem = ({ item }) => (
@@ -64,6 +64,7 @@ const ActivityArchivalRaceResults = ({ route }) => {
       <Text style={styles.resultText}>Constructor: {item.Constructor.name}</Text>
       <Text style={styles.resultText}>Time: {item.Time ? item.Time.time : '-,--'}</Text>
       <Text style={styles.resultText}>Status: {item.status}</Text>
+      <Text style={styles.resultText}>Fastest Lap: {item.FastestLap ? item.FastestLap.Time.time : '-,--'}</Text>
     </TouchableOpacity>
   );
 
@@ -82,12 +83,12 @@ const ActivityArchivalRaceResults = ({ route }) => {
           <Text style={styles.infoText}>Year: {meetingInfo.year}</Text>
         </View>
       )}
-      <Text style={styles.subHeaderText}>Race Results:</Text>
-      {raceResults.map((race, index) => (
+      <Text style={styles.subHeaderText}>Sprint Results:</Text>
+      {sprintResults.map((sprint, index) => (
         <View key={index} style={styles.raceResult}>
-          <Text style={styles.roundText}>Round: {race.round}</Text>
+          <Text style={styles.roundText}>Round: {sprint.round}</Text>
           <FlatList
-            data={race.results}
+            data={sprint.sprintResultsData}
             renderItem={renderResultItem}
             keyExtractor={(item, index) => index.toString()}
           />
@@ -140,4 +141,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ActivityArchivalRaceResults;
+export default ActivityArchivalSprintResults;

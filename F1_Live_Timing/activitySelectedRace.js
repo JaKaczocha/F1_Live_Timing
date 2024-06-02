@@ -89,6 +89,18 @@ const ActivitySelectedRace = ({ navigation, route }) => {
                   seasonName: seasonName,   
                 });
               }
+              else if (item.session_name === 'Sprint') {
+                navigation.navigate('SELECTED SPRINT RESULTS', {
+                  locationName: locationName,
+                  seasonName: seasonName,   
+                });
+              }
+              else if (item.session_name === 'Qualifying') {
+                navigation.navigate('SELECTED QUAL RESULTS', {
+                  locationName: locationName,
+                  seasonName: seasonName,   
+                });
+              }
             }}
             style={styles.sessionTouch}
           >

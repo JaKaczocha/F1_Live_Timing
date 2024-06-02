@@ -16,7 +16,8 @@ import ActivityLiveResults from './activityLiveResults';
 import ActivityArchivalRaces from './activityArchivalRaces';
 import ActivitySelectedRace from './activitySelectedRace';
 import ActivityArchivalRaceResults from './activityArchivalRaceResults';
-
+import ActivityArchivalQualifyingResults from './activityArchivalQualifyingResults';
+import ActivityArchivalSprintResults from './activityArchivalSprintResults';
 
 function App(): React.JSX.Element {
  
@@ -37,7 +38,8 @@ function App(): React.JSX.Element {
         <Stack.Screen name="ARCHIVAL RACES" component={ActivityArchivalRaces}/>
         <Stack.Screen name="SELECTED RACE" component={ActivitySelectedRace}/>
         <Stack.Screen name="SELECTED RACE RESULTS" component={ActivityArchivalRaceResults}/>
-
+        <Stack.Screen name="SELECTED QUAL RESULTS" component={ActivityArchivalQualifyingResults}/>
+        <Stack.Screen name="SELECTED SPRINT RESULTS" component={ActivityArchivalSprintResults}/>
       </Stack.Navigator>
     </NavigationContainer>
   );
