@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, ScrollView, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
+import { LogBox } from 'react-native';
 
+LogBox.ignoreLogs(['VirtualizedLists should never be nested inside plain ScrollViews']);
 const ActivityArchivalRaceResults = ({ route }) => {
   const { locationName, seasonName } = route.params;
   const [meetingInfo, setMeetingInfo] = useState(null);
@@ -17,7 +19,7 @@ const ActivityArchivalRaceResults = ({ route }) => {
       const apiUrl = `https://api.openf1.org/v1/meetings?year=${seasonName}&location=${locationName}`;
       const response = await fetch(apiUrl);
       const data = await response.json();
-      setMeetingInfo(data[0] || {});  // Assuming the first item in the list
+      setMeetingInfo(data[0] || {});  
     } catch (error) {
       console.error('Error fetching meeting info:', error);
     }
@@ -58,9 +60,9 @@ const ActivityArchivalRaceResults = ({ route }) => {
 
   const renderResultItem = ({ item }) => (
     <TouchableOpacity style={styles.resultItem}>
-      <Text style={styles.resultText}>Pos: {item.position}</Text>
+      <Text style={styles.resultPosition}>Pos: {item.position}</Text>
+      <Text style={styles.resultDriver}>Driver: {item.Driver.givenName} {item.Driver.familyName}</Text>
       <Text style={styles.resultText}>Number: {item.number}</Text>
-      <Text style={styles.resultText}>Driver: {item.Driver.givenName} {item.Driver.familyName}</Text>
       <Text style={styles.resultText}>Constructor: {item.Constructor.name}</Text>
       <Text style={styles.resultText}>Time: {item.Time ? item.Time.time : '-,--'}</Text>
       <Text style={styles.resultText}>Status: {item.status}</Text>
@@ -101,42 +103,65 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 16,
-    backgroundColor: '#fff',
+    backgroundColor: '#121212',
   },
   headerText: {
-    fontSize: 20,
+    fontSize: 24,
     fontWeight: 'bold',
+    color: '#FFFFFF',
     marginBottom: 16,
     textAlign: 'center',
   },
   subHeaderText: {
-    fontSize: 18,
+    fontSize: 20,
     fontWeight: 'bold',
+    color: '#CCCCCC',
     marginBottom: 8,
   },
   meetingInfo: {
     marginBottom: 16,
+    backgroundColor: '#1E1E1E',
+    padding: 10,
+    borderRadius: 8,
   },
   infoText: {
     fontSize: 16,
+    color: '#CCCCCC',
     marginBottom: 4,
   },
   raceResult: {
     marginBottom: 16,
+    backgroundColor: '#1E1E1E',
+    padding: 10,
+    borderRadius: 8,
   },
   roundText: {
-    fontSize: 16,
+    fontSize: 18,
     fontWeight: 'bold',
+    color: '#FFFFFF',
     marginBottom: 8,
   },
   resultItem: {
     marginBottom: 8,
     padding: 12,
-    backgroundColor: '#f0f0f0',
+    backgroundColor: '#2E2E2E',
     borderRadius: 8,
   },
   resultText: {
     fontSize: 16,
+    color: '#FFFFFF',
+  },
+  resultPosition: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#FFFFFF',  
+    marginBottom: 4,
+  },
+  resultDriver: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#FFFFFF', 
+    marginBottom: 4,
   },
 });
 

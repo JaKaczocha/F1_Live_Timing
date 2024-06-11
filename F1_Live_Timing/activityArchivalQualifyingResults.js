@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, ScrollView, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
+import { LogBox } from 'react-native';
 
+LogBox.ignoreLogs(['VirtualizedLists should never be nested inside plain ScrollViews']);
 const ActivityArchivalQualifyingResults = ({ route }) => {
   const { locationName, seasonName } = route.params;
   const [meetingInfo, setMeetingInfo] = useState(null);
@@ -58,14 +60,19 @@ const ActivityArchivalQualifyingResults = ({ route }) => {
 
   const renderResultItem = ({ item }) => (
     <TouchableOpacity style={styles.resultItem}>
-      <Text style={styles.resultText}>Pos: {item.position}</Text>
-      <Text style={styles.resultText}>Number: {item.number}</Text>
-      <Text style={styles.resultText}>Driver: {item.Driver.givenName} {item.Driver.familyName}</Text>
-      <Text style={styles.resultText}>Constructor: {item.Constructor.name}</Text>
-      <Text style={styles.resultText}>Q1: {item.Q1}</Text>
-      <Text style={styles.resultText}>Q2: {item.Q2}</Text>
-      <Text style={styles.resultText}>Q3: {item.Q3}</Text>
-      
+      <View style={styles.driverInfo}>
+        <Text style={styles.resultPosition}>Pos: {item.position}</Text>
+        <Text style={styles.resultDriver}>Driver: {item.Driver.givenName} {item.Driver.familyName}</Text>
+        <Text style={styles.resultText}>Number: {item.number}</Text>
+        <Text style={styles.resultText}>Constructor: {item.Constructor.name}</Text>
+      </View>
+      <View style={styles.qualifyingTimes}>
+        <Text></Text>
+        <Text></Text>
+        <Text style={styles.resultText}>Q1: {item.Q1}</Text>
+        <Text style={styles.resultText}>Q2: {item.Q2}</Text>
+        <Text style={styles.resultText}>Q3: {item.Q3}</Text>
+      </View>
     </TouchableOpacity>
   );
 
@@ -103,42 +110,76 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 16,
-    backgroundColor: '#fff',
+    backgroundColor: '#121212',
   },
   headerText: {
-    fontSize: 20,
+    fontSize: 24,
     fontWeight: 'bold',
+    color: '#FFFFFF',
     marginBottom: 16,
     textAlign: 'center',
   },
   subHeaderText: {
-    fontSize: 18,
+    fontSize: 20,
     fontWeight: 'bold',
+    color: '#CCCCCC',
     marginBottom: 8,
   },
   meetingInfo: {
     marginBottom: 16,
+    backgroundColor: '#1E1E1E',
+    padding: 10,
+    borderRadius: 8,
   },
   infoText: {
     fontSize: 16,
+    color: '#CCCCCC',
     marginBottom: 4,
   },
   raceResult: {
     marginBottom: 16,
+    backgroundColor: '#1E1E1E',
+    padding: 10,
+    borderRadius: 8,
   },
   roundText: {
-    fontSize: 16,
+    fontSize: 18,
     fontWeight: 'bold',
+    color: '#FFFFFF',
     marginBottom: 8,
   },
   resultItem: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
     marginBottom: 8,
     padding: 12,
-    backgroundColor: '#f0f0f0',
+    backgroundColor: '#2E2E2E',
     borderRadius: 8,
+  },
+  driverInfo: {
+    flex: 2,
+    paddingRight: 10,
+  },
+  qualifyingTimes: {
+    flex: 1,
+    alignItems: 'flex-end',
   },
   resultText: {
     fontSize: 16,
+    color: '#FFFFFF',
+  },
+  resultPosition: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#FFFFFF', 
+    marginBottom: 4,
+  },
+  resultDriver: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#FFFFFF',  
+    marginBottom: 4,
+    flexWrap: 'nowrap',
   },
 });
 

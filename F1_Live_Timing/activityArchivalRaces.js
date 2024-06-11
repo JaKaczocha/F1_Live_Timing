@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
+import { LogBox } from 'react-native';
 
+LogBox.ignoreLogs(['VirtualizedLists should never be nested inside plain ScrollViews']);
 const ActivityArchivalRaces = ({ navigation }) => {
   const [sessions, setSessions] = useState([]);
   const [years, setYears] = useState([]);
@@ -88,7 +90,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
   },
   itemEven: {
-    backgroundColor: '#000000', // Background color for every other item
+    backgroundColor: '#000000',
   },
   location: {
     textAlign: 'center',

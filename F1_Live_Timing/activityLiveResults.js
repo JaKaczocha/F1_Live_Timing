@@ -1,7 +1,9 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { View, Text, StyleSheet, ActivityIndicator, ScrollView, Image, Animated, Easing } from 'react-native';
 import axios from 'axios';
+import { LogBox } from 'react-native';
 
+LogBox.ignoreLogs(['VirtualizedLists should never be nested inside plain ScrollViews']);
 const ActivityLiveResults = () => {
   const [drivers, setDrivers] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -44,8 +46,6 @@ const ActivityLiveResults = () => {
     }
   };
 
-  
-
   useEffect(() => {
     const startProgressAnimation = () => {
       progress.setValue(0);
@@ -77,7 +77,7 @@ const ActivityLiveResults = () => {
   if (loading) {
     return (
       <View style={styles.container}>
-        <ActivityIndicator size="large" color="#0000ff" />
+        <ActivityIndicator size="large" color="#FFFFFF" />
       </View>
     );
   }
@@ -120,12 +120,13 @@ const ActivityLiveResults = () => {
             <View style={[styles.teamColorBar, { backgroundColor: `#${driver.team_colour}` }]} />
             <Image source={{ uri: driver.headshot_url }} style={styles.headshot} />
             <View style={styles.driverInfo}>
-              <Text style={styles.driverName}>{driver.full_name}</Text>
-              <Text>Team: {driver.team_name}</Text>
-              <Text>Country: {driver.country_code}</Text>
-              <Text>Driver Number: {driver.driver_number}</Text>
-              <Text>Gap to Leader: {driver.gap_to_leader !== null ? driver.gap_to_leader : null}</Text>
-              <Text>Interval: {driver.interval !== null ? driver.interval : null}</Text>
+              <View style={styles.driverNameContainer}>
+                <Text style={styles.driverName}>{driver.full_name}</Text>
+                <Text style={styles.countryCode}>{driver.country_code}</Text>
+              </View>
+              <Text style={styles.driverDetails}>Team: {driver.team_name}</Text>
+              <Text style={styles.driverDetails}>Gap to Leader: {driver.gap_to_leader !== null ? driver.gap_to_leader : 'N/A'}</Text>
+              <Text style={styles.driverDetails}>Interval: {driver.interval !== null ? driver.interval : 'N/A'}</Text>
             </View>
           </View>
         ))
@@ -142,37 +143,41 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     padding: 20,
+    backgroundColor: '#121212',
   },
   text: {
     fontSize: 24,
     fontWeight: 'bold',
+    color: '#FFFFFF',
     marginBottom: 20,
   },
   progressBarContainer: {
     width: '100%',
     height: 10,
-    backgroundColor: '#e0e0e0',
+    backgroundColor: '#333333',
     borderRadius: 5,
     overflow: 'hidden',
     marginBottom: 20,
   },
   progressBar: {
     height: '100%',
-    backgroundColor: '#3b5998',
+    backgroundColor: '#FFFFFF', 
   },
   driverContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 20,
+    marginBottom: 5,
     padding: 10,
     borderWidth: 1,
-    borderColor: '#ccc',
+    borderColor: '#555555',
     borderRadius: 5,
+    backgroundColor: '#1E1E1E',
     width: '100%',
   },
   position: {
     fontSize: 18,
     fontWeight: 'bold',
+    color: '#FFFFFF',
     marginRight: 10,
   },
   teamColorBar: {
@@ -181,16 +186,30 @@ const styles = StyleSheet.create({
     marginRight: 10,
   },
   headshot: {
-    width: 50,
-    height: 50,
+    width: 40,
+    height: 40,
     marginRight: 20,
+    borderRadius: 20,
   },
   driverInfo: {
     flex: 1,
   },
+  driverNameContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
   driverName: {
     fontSize: 18,
     fontWeight: 'bold',
+    color: '#FFFFFF',
+    marginRight: 10,
+  },
+  countryCode: {
+    fontSize: 16,
+    color: '#CCCCCC',
+  },
+  driverDetails: {
+    color: '#CCCCCC',
   },
 });
 

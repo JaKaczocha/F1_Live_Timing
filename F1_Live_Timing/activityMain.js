@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
     
     width: '100%',
     height: '25%',
-    resizeMode: 'cover', // Obraz będzie zapełniał przestrzeń, zachowując proporcje
+    resizeMode: 'cover', 
     marginBottom: '8%'
   },
  
